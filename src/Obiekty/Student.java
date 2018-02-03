@@ -18,4 +18,21 @@ public class Student {
         this.grupy = grupy;
         this.ocenayZaPrzedmioty = ocenayZaPrzedmioty;
     }
+
+    public Student(String imie, String nazwisko) {
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "imie='" + imie + '\'' +
+                ", nazwisko='" + nazwisko + '\'' +
+                ", grupy=" + grupy +
+                ", ocenayZaPrzedmioty=" + ocenayZaPrzedmioty +
+                ", punktyECTS=" + punktyECTS +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
