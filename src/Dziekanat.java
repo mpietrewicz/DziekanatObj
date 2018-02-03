@@ -1,4 +1,5 @@
 import Obiekty.*;
+import org.w3c.dom.ranges.Range;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,8 +42,7 @@ public class Dziekanat {
 
 
                 case "2":
-                    System.out.println("<<< Zarządzanie Nauczycielami >>>");
-                    System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
+                    wyswietlMenuDoZarzadzania("Nauczycielami");
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
@@ -65,8 +65,7 @@ public class Dziekanat {
 
 
                 case "3":
-                    System.out.println("<<< Zarządzanie Grupami >>>");
-                    System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
+                    wyswietlMenuDoZarzadzania(" Grupami");
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
@@ -89,14 +88,33 @@ public class Dziekanat {
 
 
                 case "4":
-                    System.out.println("<<< Zarządzanie Przedmiotami >>>");
-                    System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
+                    wyswietlMenuDoZarzadzania("Przedmiotami");
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
                             dodajPrzedmiot(bazaDanych, bufferedReader);
                             break;
                         case "2":
+                            if (bazaDanych.listaPrzedmiotow.size() == 0) {
+                                System.out.println("");
+                            }
+                            else {
+                                System.out.println("PRZEDMIOTY");
+                                wyswietlListe(bazaDanych.listaPrzedmiotow);
+                                System.out.println("Podaj id przedmiotu do edycji");
+                                Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
+                                if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
+                                    Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId);
+                                    System.out.println("Podaj nową nazwę lub naciśniej Enter aby pozostawić bez zmian("+przedmiotDoEdycji.getNazwa()+")");
+                                    String nazwa = bufferedReader.readLine();
+                                    if (!nazwa.equals("")) {
+                                        przedmiotDoEdycji.setNazwa(nazwa);
+                                    }
+                                }
+                                else {
+                                    System.out.println("Brak przedmiotu o podanym id");
+                                }
+                            }
                             System.out.println("<<<<<< Edytowanie >>>>>>");
                             break;
                         case "3":
@@ -124,6 +142,11 @@ public class Dziekanat {
         }
     }
 
+    private static void wyswietlMenuDoZarzadzania(String kontekstZarzadzania) {
+        System.out.println("Zarządzanie "+kontekstZarzadzania);
+        System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
+    }
+
     private static void dodajStudenta(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
         System.out.print("Podaj imie: ");
         String imie = bufferedReader.readLine();
@@ -147,15 +170,11 @@ public class Dziekanat {
         System.out.print("Podaj nazwę: ");
         String nazwa = bufferedReader.readLine();
         System.out.println("PRZEDMIOTY: ");
-        int index1 = 0;
-        for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
-            System.out.println(index1+": "+przedmiot);
-            index1++;
-        }
-        if (index1 == 0) {
+        if (bazaDanych.listaPrzedmiotow.size() == 0) {
             System.out.println("utworzenie nowej grupy!!!");
         }
         else {
+            wyswietlListe(bazaDanych.listaPrzedmiotow);
             System.out.println("Wprowadź id przedmiotu lub utworz nowy przedmiot");
         }
     }
