@@ -3,6 +3,7 @@ import Obiekty.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Dziekanat {
 
@@ -30,7 +31,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            wyswietlListeStudentow(bazaDanych);
+                            wyswietlListe(bazaDanych.listaStudentow);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -54,7 +55,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            wyswietlListeNauczycieli(bazaDanych);
+                            wyswietlListe(bazaDanych.listaNauczycieli);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -78,7 +79,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            wyswietlListeGrup(bazaDanych);
+                            wyswietlListe(bazaDanych.listaGrup);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -102,7 +103,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            wyswietlListePrzedmiotow(bazaDanych);
+                            wyswietlListe(bazaDanych.listaPrzedmiotow);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -166,34 +167,10 @@ public class Dziekanat {
     }
 
 
-    private static void wyswietlListeStudentow(BazaDanych bazaDanych) {
+    private static void wyswietlListe(ArrayList lista) {
         int index = 0;
-        for (Student student : bazaDanych.listaStudentow) {
-            System.out.println(index+": "+student);
-            index++;
-        }
-    }
-
-    private static void wyswietlListeNauczycieli(BazaDanych bazaDanych) {
-        int index = 0;
-        for (Nauczyciel nauczyciel : bazaDanych.listaNauczycieli) {
-            System.out.println(index+": "+nauczyciel);
-            index++;
-        }
-    }
-
-    private static void wyswietlListeGrup(BazaDanych bazaDanych) {
-        int index = 0;
-        for (Grupa grupa: bazaDanych.listaGrup) {
-            System.out.println(index+": "+grupa);
-            index++;
-        }
-    }
-
-    private static void wyswietlListePrzedmiotow(BazaDanych bazaDanych) {
-        int index = 0;
-        for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
-            System.out.println(index+": "+przedmiot);
+        for (Object obiekt : lista) {
+            System.out.println(index+": "+obiekt);
             index++;
         }
     }
