@@ -21,12 +21,7 @@ public class Dziekanat {
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
-                            System.out.print("Podaj imie: ");
-                            String imie = bufferedReader.readLine();
-                            System.out.print("Podaj nazwisko: ");
-                            String nazwisko = bufferedReader.readLine();
-                            Student nowyStudent = new Student(imie, nazwisko);
-                            bazaDanych.listaStudentow.add(nowyStudent);
+                            dodajStudenta(bazaDanych, bufferedReader);
                             break;
                         case "2":
                             System.out.println("<<<<<< Edytowanie >>>>>>");
@@ -35,12 +30,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            int index = 0;
-                            for (Student student : bazaDanych.listaStudentow) {
-                                System.out.println(index+": "+student);
-                                index++;
-                            }
-
+                            wyswietlListeStudentow(bazaDanych);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -55,11 +45,7 @@ public class Dziekanat {
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
-                            System.out.print("Podaj imie: ");
-                            String imie = bufferedReader.readLine();
-                            System.out.print("Podaj nazwisko: ");
-                            String nazwisko = bufferedReader.readLine();
-                            bazaDanych.listaNauczycieli.add(new Nauczyciel(imie, nazwisko));
+                            DodajNauczyciela(bazaDanych, bufferedReader);
                             break;
                         case "2":
                             System.out.println("<<<<<< Edytowanie >>>>>>");
@@ -68,11 +54,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            int index = 0;
-                            for (Nauczyciel nauczyciel : bazaDanych.listaNauczycieli) {
-                                System.out.println(index+": "+nauczyciel);
-                                index++;
-                            }
+                            wyswietlListeNauczycieli(bazaDanych);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -87,20 +69,7 @@ public class Dziekanat {
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
-                            System.out.print("Podaj nazwę: ");
-                            String nazwa = bufferedReader.readLine();
-                            System.out.println("PRZEDMIOTY: ");
-                            int index1 = 0;
-                            for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
-                                System.out.println(index1+": "+przedmiot);
-                                index1++;
-                            }
-                            if (index1 == 0) {
-                                System.out.println("utworzenie nowej grupy!!!");
-                            }
-                            else {
-                                System.out.println("Wprowadź id przedmiotu lub utworz nowy przedmiot");
-                            }
+                            dodajGrupe(bazaDanych, bufferedReader);
                             break;
                         case "2":
                             System.out.println("<<<<<< Edytowanie >>>>>>");
@@ -109,11 +78,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            int index = 0;
-                            for (Grupa grupa: bazaDanych.listaGrup) {
-                                System.out.println(index+": "+grupa);
-                                index++;
-                            }
+                            wyswietlListeGrup(bazaDanych);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -128,9 +93,7 @@ public class Dziekanat {
                     wybranaOperacja = bufferedReader.readLine();
                     switch (wybranaOperacja) {
                         case "1":
-                            System.out.print("Podaj nazwę: ");
-                            String nazwa = bufferedReader.readLine();
-                            bazaDanych.listaPrzedmiotow.add(new Przedmiot(nazwa));
+                            dodajPrzedmiot(bazaDanych, bufferedReader);
                             break;
                         case "2":
                             System.out.println("<<<<<< Edytowanie >>>>>>");
@@ -139,11 +102,7 @@ public class Dziekanat {
                             System.out.println("<<<<<< Usuwanie >>>>>>");
                             break;
                         case "9":
-                            int index = 0;
-                            for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
-                                System.out.println(index+": "+przedmiot);
-                                index++;
-                            }
+                            wyswietlListePrzedmiotow(bazaDanych);
                             break;
                         default:
                             System.out.println("Operacja niedostępna!");
@@ -163,4 +122,80 @@ public class Dziekanat {
             }
         }
     }
+
+    private static void dodajStudenta(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        System.out.print("Podaj imie: ");
+        String imie = bufferedReader.readLine();
+        System.out.print("Podaj nazwisko: ");
+        String nazwisko = bufferedReader.readLine();
+        Student nowyStudent = new Student(imie, nazwisko);
+        bazaDanych.listaStudentow.add(nowyStudent);
+    }
+
+    private static void DodajNauczyciela(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        System.out.print("Podaj imie: ");
+        String imie = bufferedReader.readLine();
+        System.out.print("Podaj nazwisko: ");
+        String nazwisko = bufferedReader.readLine();
+        bazaDanych.listaNauczycieli.add(new Nauczyciel(imie, nazwisko));
+    }
+
+
+
+    private static void dodajGrupe(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        System.out.print("Podaj nazwę: ");
+        String nazwa = bufferedReader.readLine();
+        System.out.println("PRZEDMIOTY: ");
+        int index1 = 0;
+        for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
+            System.out.println(index1+": "+przedmiot);
+            index1++;
+        }
+        if (index1 == 0) {
+            System.out.println("utworzenie nowej grupy!!!");
+        }
+        else {
+            System.out.println("Wprowadź id przedmiotu lub utworz nowy przedmiot");
+        }
+    }
+
+    private static void dodajPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        System.out.print("Podaj nazwę: ");
+        String nazwa = bufferedReader.readLine();
+        bazaDanych.listaPrzedmiotow.add(new Przedmiot(nazwa));
+    }
+
+
+    private static void wyswietlListeStudentow(BazaDanych bazaDanych) {
+        int index = 0;
+        for (Student student : bazaDanych.listaStudentow) {
+            System.out.println(index+": "+student);
+            index++;
+        }
+    }
+
+    private static void wyswietlListeNauczycieli(BazaDanych bazaDanych) {
+        int index = 0;
+        for (Nauczyciel nauczyciel : bazaDanych.listaNauczycieli) {
+            System.out.println(index+": "+nauczyciel);
+            index++;
+        }
+    }
+
+    private static void wyswietlListeGrup(BazaDanych bazaDanych) {
+        int index = 0;
+        for (Grupa grupa: bazaDanych.listaGrup) {
+            System.out.println(index+": "+grupa);
+            index++;
+        }
+    }
+
+    private static void wyswietlListePrzedmiotow(BazaDanych bazaDanych) {
+        int index = 0;
+        for (Przedmiot przedmiot : bazaDanych.listaPrzedmiotow) {
+            System.out.println(index+": "+przedmiot);
+            index++;
+        }
+    }
+
 }
