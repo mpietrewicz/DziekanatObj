@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 public class Przedmiot {
     String nazwa;
-    ArrayList<Przedmiot> przedmioty;
 
-    public Przedmiot(String nazwa, ArrayList<Przedmiot> przedmioty) {
+    public Przedmiot(String nazwa) {
         this.nazwa = nazwa;
-        this.przedmioty = przedmioty;
+    }
+
+    @Override
+    public String toString() {
+        return "Przedmiot{" +
+                "nazwa='" + nazwa + '\'' +
+                '}';
     }
 }
