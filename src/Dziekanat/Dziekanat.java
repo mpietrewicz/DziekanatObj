@@ -1,5 +1,6 @@
-import Obiekty.*;
-import org.w3c.dom.ranges.Range;
+package Dziekanat;
+
+import Dziekanat.ObiektyDziekanatu.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,7 +97,7 @@ public class Dziekanat {
                             break;
                         case "2":
                             if (bazaDanych.listaPrzedmiotow.size() == 0) {
-                                System.out.println("");
+                                System.out.println("Brak przedmiotów do edycji");
                             }
                             else {
                                 System.out.println("PRZEDMIOTY");
@@ -104,7 +105,7 @@ public class Dziekanat {
                                 System.out.println("Podaj id przedmiotu do edycji");
                                 Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
                                 if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
-                                    Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId);
+                                    Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId-1);
                                     System.out.println("Podaj nową nazwę lub naciśniej Enter aby pozostawić bez zmian("+przedmiotDoEdycji.getNazwa()+")");
                                     String nazwa = bufferedReader.readLine();
                                     if (!nazwa.equals("")) {
@@ -118,7 +119,21 @@ public class Dziekanat {
                             System.out.println("<<<<<< Edytowanie >>>>>>");
                             break;
                         case "3":
-                            System.out.println("<<<<<< Usuwanie >>>>>>");
+                            if (bazaDanych.listaPrzedmiotow.size() == 0) {
+                                System.out.println("Brak przedmiotów do edycji");
+                            }
+                            else {
+                                System.out.println("PRZEDMIOTY");
+                                wyswietlListe(bazaDanych.listaPrzedmiotow);
+                                System.out.println("Podaj id przedmiotu do usunięcia");
+                                Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
+                                if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
+                                    bazaDanych.listaPrzedmiotow.remove(wybranyId-1);
+                                }
+                                else {
+                                    System.out.println("Brak przedmiotu o podanym id");
+                                }
+                            }
                             break;
                         case "9":
                             wyswietlListe(bazaDanych.listaPrzedmiotow);
@@ -187,7 +202,7 @@ public class Dziekanat {
 
 
     private static void wyswietlListe(ArrayList lista) {
-        int index = 0;
+        int index = 1;
         for (Object obiekt : lista) {
             System.out.println(index+": "+obiekt);
             index++;

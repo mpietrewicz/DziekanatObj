@@ -1,7 +1,6 @@
-import Obiekty.Grupa;
-import Obiekty.Nauczyciel;
-import Obiekty.Przedmiot;
-import Obiekty.Student;
+package Dziekanat;
+
+import Dziekanat.ObiektyDziekanatu.*;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ public enum BazaDanych {
 
     public ArrayList<Student> listaStudentow = new ArrayList<>();
     public ArrayList<Nauczyciel> listaNauczycieli = new ArrayList<>();
-    public ArrayList<Przedmiot> listaPrzedmiotow = new ArrayList<>();
+    public java.util.ArrayList<Przedmiot> listaPrzedmiotow = new ArrayList<Przedmiot>();
     public ArrayList<Grupa> listaGrup = new ArrayList<>();
 
 }
