@@ -83,28 +83,63 @@ public class Dziekanat {
         }
     }
 
-    private static void edytujPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
-        if (bazaDanych.listaPrzedmiotow.size() == 0) {
-            System.out.println("Brak przedmiotów do edycji");
+    private static Przedmiot edytujPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        int indexObiektu = wyborObiektuDoEdycji(bazaDanych, bufferedReader, bazaDanych.listaPrzedmiotow);
+        if (indexObiektu != 0) {
+            Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(indexObiektu-1);
+            przedmiotDoEdycji.setNazwa(pobierzNowaWartoscPola(bufferedReader, "nazwa", przedmiotDoEdycji.getNazwa()));
+            return przedmiotDoEdycji;
         }
-        else {
-            System.out.println("PRZEDMIOTY");
-            wyswietlListeObiektow(bazaDanych.listaPrzedmiotow);
-            System.out.println("Podaj id przedmiotu do edycji");
-            Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
-            if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
-                Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId-1);
-                System.out.println("Podaj nową nazwę lub naciśniej Enter aby pozostawić bez zmian("+przedmiotDoEdycji.getNazwa()+")");
-                String nazwa = bufferedReader.readLine();
-                if (!nazwa.equals("")) {
-                    przedmiotDoEdycji.setNazwa(nazwa);
+        return null;
+    }
+
+    private static void edytujNauczyciela(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        int indexObiektu = wyborObiektuDoEdycji(bazaDanych, bufferedReader, bazaDanych.listaNauczycieli);
+        if (indexObiektu != 0) {
+            Nauczyciel nauczycielDoEdycji = bazaDanych.listaNauczycieli.get(indexObiektu-1);
+            nauczycielDoEdycji.setImie(pobierzNowaWartoscPola(bufferedReader, "imie", nauczycielDoEdycji.getImie()));
+            nauczycielDoEdycji.setNazwisko(pobierzNowaWartoscPola(bufferedReader, "nazwisko", nauczycielDoEdycji.getNazwisko()));
+            if(nauczycielDoEdycji.getPrzedmioty().size() > 0) {
+                wyswietlListeObiektow(nauczycielDoEdycji.getPrzedmioty());
+                System.out.println("Czy chczesz edytować obecną listę przedmiotów czy dodać nowy?");
+                Przedmiot edytowanyPrzedmiot = edytujPrzedmiot(bazaDanych, bufferedReader);
+                if(edytowanyPrzedmiot != null) {
+                    nauczycielDoEdycji.setPrzedmiot(edytowanyPrzedmiot);
                 }
             }
             else {
-                System.out.println("Brak przedmiotu o podanym id");
+                nauczycielDoEdycji.setPrzedmiot(dodajPrzedmiot(bazaDanych, bufferedReader));
             }
         }
-        System.out.println("<<<<<< Edytowanie >>>>>>");
+    }
+
+    private static String pobierzNowaWartoscPola(BufferedReader bufferedReader, String nazwaPola, String obecnaWartoscPola) throws IOException {
+        System.out.println("Podaj " +nazwaPola +" lub naciśniej Enter aby pozostawić bez zmian("+ obecnaWartoscPola+")");
+        String nowaWartoscPola = bufferedReader.readLine();
+        if (!nowaWartoscPola.equals("")) {
+            return nowaWartoscPola;
+        } else {
+            return obecnaWartoscPola;
+        }
+    }
+
+    private static int wyborObiektuDoEdycji(BazaDanych bazaDanych, BufferedReader bufferedReader, ArrayList listaObiektow) throws IOException {
+        if (listaObiektow.size() == 0) {
+            System.out.println("Brak obiektow do edycji");
+            return 0;
+        }
+        else {
+            wyswietlListeObiektow(listaObiektow);
+            System.out.println("Podaj id obiektu do edycji");
+            Integer wybranyIdObiektu = Integer.parseInt(bufferedReader.readLine());
+            if (wybranyIdObiektu >= 0 && wybranyIdObiektu <= listaObiektow.size()) {
+                return wybranyIdObiektu;
+            }
+            else {
+                System.out.println("Brak przedmiotu o podanym id");
+                return 0;
+            }
+        }
     }
 
     private static void zarzadzajGrupami(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
@@ -139,7 +174,7 @@ public class Dziekanat {
                 dodajNauczyciela(bazaDanych, bufferedReader);
                 break;
             case "2":
-                System.out.println("<<<<<< Edytowanie >>>>>>");
+                edytujNauczyciela(bazaDanych, bufferedReader);
                 break;
             case "3":
                 System.out.println("<<<<<< Usuwanie >>>>>>");
@@ -195,7 +230,8 @@ public class Dziekanat {
         String imie = bufferedReader.readLine();
         System.out.print("Podaj nazwisko: ");
         String nazwisko = bufferedReader.readLine();
-        bazaDanych.listaNauczycieli.add(new Nauczyciel(imie, nazwisko));
+        Przedmiot przedmiot = dodajPrzedmiot(bazaDanych, bufferedReader);
+        bazaDanych.listaNauczycieli.add(new Nauczyciel(imie, nazwisko, przedmiot));
     }
 
 
@@ -213,10 +249,12 @@ public class Dziekanat {
         }
     }
 
-    private static void dodajPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
-        System.out.print("Podaj nazwę: ");
+    private static Przedmiot dodajPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        System.out.print("Podaj nazwę przedmiotu: ");
         String nazwa = bufferedReader.readLine();
-        bazaDanych.listaPrzedmiotow.add(new Przedmiot(nazwa));
+        Przedmiot przedmiot = new Przedmiot(nazwa);
+        bazaDanych.listaPrzedmiotow.add(przedmiot);
+        return przedmiot;
     }
 
 
