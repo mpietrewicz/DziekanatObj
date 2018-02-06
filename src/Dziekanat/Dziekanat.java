@@ -20,140 +20,159 @@ public class Dziekanat {
             String wybranaOperacja;
             switch (wybranyKontekstObiektu) {
                 case "1":
-                    System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
-                    wybranaOperacja = bufferedReader.readLine();
-                    switch (wybranaOperacja) {
-                        case "1":
-                            dodajStudenta(bazaDanych, bufferedReader);
-                            break;
-                        case "2":
-                            System.out.println("<<<<<< Edytowanie >>>>>>");
-                            break;
-                        case "3":
-                            System.out.println("<<<<<< Usuwanie >>>>>>");
-                            break;
-                        case "9":
-                            wyswietlListe(bazaDanych.listaStudentow);
-                            break;
-                        default:
-                            System.out.println("Operacja niedostępna!");
-                            break;
-                    }
+                    zarzadzajStudentami(bazaDanych, bufferedReader);
                     break;
-
-
                 case "2":
-                    wyswietlMenuDoZarzadzania("Nauczycielami");
-                    wybranaOperacja = bufferedReader.readLine();
-                    switch (wybranaOperacja) {
-                        case "1":
-                            DodajNauczyciela(bazaDanych, bufferedReader);
-                            break;
-                        case "2":
-                            System.out.println("<<<<<< Edytowanie >>>>>>");
-                            break;
-                        case "3":
-                            System.out.println("<<<<<< Usuwanie >>>>>>");
-                            break;
-                        case "9":
-                            wyswietlListe(bazaDanych.listaNauczycieli);
-                            break;
-                        default:
-                            System.out.println("Operacja niedostępna!");
-                            break;
-                    }
+                    zarzadzajNauczycielami(bazaDanych, bufferedReader);
                     break;
-
-
                 case "3":
-                    wyswietlMenuDoZarzadzania(" Grupami");
-                    wybranaOperacja = bufferedReader.readLine();
-                    switch (wybranaOperacja) {
-                        case "1":
-                            dodajGrupe(bazaDanych, bufferedReader);
-                            break;
-                        case "2":
-                            System.out.println("<<<<<< Edytowanie >>>>>>");
-                            break;
-                        case "3":
-                            System.out.println("<<<<<< Usuwanie >>>>>>");
-                            break;
-                        case "9":
-                            wyswietlListe(bazaDanych.listaGrup);
-                            break;
-                        default:
-                            System.out.println("Operacja niedostępna!");
-                            break;
-                    }
+                    zarzadzajGrupami(bazaDanych, bufferedReader);
                     break;
-
-
                 case "4":
-                    wyswietlMenuDoZarzadzania("Przedmiotami");
-                    wybranaOperacja = bufferedReader.readLine();
-                    switch (wybranaOperacja) {
-                        case "1":
-                            dodajPrzedmiot(bazaDanych, bufferedReader);
-                            break;
-                        case "2":
-                            if (bazaDanych.listaPrzedmiotow.size() == 0) {
-                                System.out.println("Brak przedmiotów do edycji");
-                            }
-                            else {
-                                System.out.println("PRZEDMIOTY");
-                                wyswietlListe(bazaDanych.listaPrzedmiotow);
-                                System.out.println("Podaj id przedmiotu do edycji");
-                                Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
-                                if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
-                                    Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId-1);
-                                    System.out.println("Podaj nową nazwę lub naciśniej Enter aby pozostawić bez zmian("+przedmiotDoEdycji.getNazwa()+")");
-                                    String nazwa = bufferedReader.readLine();
-                                    if (!nazwa.equals("")) {
-                                        przedmiotDoEdycji.setNazwa(nazwa);
-                                    }
-                                }
-                                else {
-                                    System.out.println("Brak przedmiotu o podanym id");
-                                }
-                            }
-                            System.out.println("<<<<<< Edytowanie >>>>>>");
-                            break;
-                        case "3":
-                            if (bazaDanych.listaPrzedmiotow.size() == 0) {
-                                System.out.println("Brak przedmiotów do edycji");
-                            }
-                            else {
-                                System.out.println("PRZEDMIOTY");
-                                wyswietlListe(bazaDanych.listaPrzedmiotow);
-                                System.out.println("Podaj id przedmiotu do usunięcia");
-                                Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
-                                if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
-                                    bazaDanych.listaPrzedmiotow.remove(wybranyId-1);
-                                }
-                                else {
-                                    System.out.println("Brak przedmiotu o podanym id");
-                                }
-                            }
-                            break;
-                        case "9":
-                            wyswietlListe(bazaDanych.listaPrzedmiotow);
-                            break;
-                        default:
-                            System.out.println("Operacja niedostępna!");
-                            break;
-                    }
+                    zarzadzajPrzedmiotami(bazaDanych, bufferedReader);
                     break;
-
-
                 case "5":
                     System.out.println("<<< Zarządzanie Ocenami >>>");
                     break;
-
-
                 default:
                     System.out.println("Zarzadanie niedostępna!");
                     break;
             }
+        }
+    }
+
+
+    private static void zarzadzajPrzedmiotami(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        String wybranaOperacja;
+        wyswietlMenuDoZarzadzania("Przedmiotami");
+        wybranaOperacja = bufferedReader.readLine();
+        switch (wybranaOperacja) {
+            case "1":
+                dodajPrzedmiot(bazaDanych, bufferedReader);
+                break;
+            case "2":
+                edytujPrzedmiot(bazaDanych, bufferedReader);
+                break;
+            case "3":
+                UsunPrzedmiot(bazaDanych, bufferedReader);
+                break;
+            case "9":
+                wyswietlListeObiektow(bazaDanych.listaPrzedmiotow);
+                break;
+            default:
+                System.out.println("Operacja niedostępna!");
+                break;
+        }
+    }
+
+    private static void UsunPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        if (bazaDanych.listaPrzedmiotow.size() == 0) {
+            System.out.println("Brak przedmiotów do edycji");
+        }
+        else {
+            System.out.println("PRZEDMIOTY");
+            wyswietlListeObiektow(bazaDanych.listaPrzedmiotow);
+            System.out.println("Podaj id przedmiotu do usunięcia");
+            Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
+            if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
+                bazaDanych.listaPrzedmiotow.remove(wybranyId-1);
+            }
+            else {
+                System.out.println("Brak przedmiotu o podanym id");
+            }
+        }
+    }
+
+    private static void edytujPrzedmiot(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        if (bazaDanych.listaPrzedmiotow.size() == 0) {
+            System.out.println("Brak przedmiotów do edycji");
+        }
+        else {
+            System.out.println("PRZEDMIOTY");
+            wyswietlListeObiektow(bazaDanych.listaPrzedmiotow);
+            System.out.println("Podaj id przedmiotu do edycji");
+            Integer wybranyId = Integer.parseInt(bufferedReader.readLine());
+            if (wybranyId >= 0 && wybranyId <= bazaDanych.listaPrzedmiotow.size()) {
+                Przedmiot przedmiotDoEdycji = bazaDanych.listaPrzedmiotow.get(wybranyId-1);
+                System.out.println("Podaj nową nazwę lub naciśniej Enter aby pozostawić bez zmian("+przedmiotDoEdycji.getNazwa()+")");
+                String nazwa = bufferedReader.readLine();
+                if (!nazwa.equals("")) {
+                    przedmiotDoEdycji.setNazwa(nazwa);
+                }
+            }
+            else {
+                System.out.println("Brak przedmiotu o podanym id");
+            }
+        }
+        System.out.println("<<<<<< Edytowanie >>>>>>");
+    }
+
+    private static void zarzadzajGrupami(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        String wybranaOperacja;
+        wyswietlMenuDoZarzadzania(" Grupami");
+        wybranaOperacja = bufferedReader.readLine();
+        switch (wybranaOperacja) {
+            case "1":
+                dodajGrupe(bazaDanych, bufferedReader);
+                break;
+            case "2":
+                System.out.println("<<<<<< Edytowanie >>>>>>");
+                break;
+            case "3":
+                System.out.println("<<<<<< Usuwanie >>>>>>");
+                break;
+            case "9":
+                wyswietlListeObiektow(bazaDanych.listaGrup);
+                break;
+            default:
+                System.out.println("Operacja niedostępna!");
+                break;
+        }
+    }
+
+    private static void zarzadzajNauczycielami(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        String wybranaOperacja;
+        wyswietlMenuDoZarzadzania("Nauczycielami");
+        wybranaOperacja = bufferedReader.readLine();
+        switch (wybranaOperacja) {
+            case "1":
+                dodajNauczyciela(bazaDanych, bufferedReader);
+                break;
+            case "2":
+                System.out.println("<<<<<< Edytowanie >>>>>>");
+                break;
+            case "3":
+                System.out.println("<<<<<< Usuwanie >>>>>>");
+                break;
+            case "9":
+                wyswietlListeObiektow(bazaDanych.listaNauczycieli);
+                break;
+            default:
+                System.out.println("Operacja niedostępna!");
+                break;
+        }
+    }
+
+    private static void zarzadzajStudentami(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+        String wybranaOperacja;
+        System.out.println("Możliwe operacje: \n 1. Dodaj \n 2. Edytuj \n 3. Usuń \n 9. Wyświetl Listę");
+        wybranaOperacja = bufferedReader.readLine();
+        switch (wybranaOperacja) {
+            case "1":
+                dodajStudenta(bazaDanych, bufferedReader);
+                break;
+            case "2":
+                System.out.println("<<<<<< Edytowanie >>>>>>");
+                break;
+            case "3":
+                System.out.println("<<<<<< Usuwanie >>>>>>");
+                break;
+            case "9":
+                wyswietlListeObiektow(bazaDanych.listaStudentow);
+                break;
+            default:
+                System.out.println("Operacja niedostępna!");
+                break;
         }
     }
 
@@ -171,7 +190,7 @@ public class Dziekanat {
         bazaDanych.listaStudentow.add(nowyStudent);
     }
 
-    private static void DodajNauczyciela(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
+    private static void dodajNauczyciela(BazaDanych bazaDanych, BufferedReader bufferedReader) throws IOException {
         System.out.print("Podaj imie: ");
         String imie = bufferedReader.readLine();
         System.out.print("Podaj nazwisko: ");
@@ -189,7 +208,7 @@ public class Dziekanat {
             System.out.println("utworzenie nowej grupy!!!");
         }
         else {
-            wyswietlListe(bazaDanych.listaPrzedmiotow);
+            wyswietlListeObiektow(bazaDanych.listaPrzedmiotow);
             System.out.println("Wprowadź id przedmiotu lub utworz nowy przedmiot");
         }
     }
@@ -201,7 +220,7 @@ public class Dziekanat {
     }
 
 
-    private static void wyswietlListe(ArrayList lista) {
+    private static void wyswietlListeObiektow(ArrayList lista) {
         int index = 1;
         for (Object obiekt : lista) {
             System.out.println(index+": "+obiekt);
